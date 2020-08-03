@@ -1,12 +1,44 @@
 import React from "react";
 import { Select } from "@procore/core-react";
-import styles from "./App.module.scss";
 
 function App() {
   const [list, setList] = React.useState([]);
   const [value, setValue] = React.useState({ id: null, name: null });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+
+  const perPage = 50;
+  const city = "santa_barbara";
+  const baseUrl = "https://api.openbrewerydb.org/breweries";
+  const url = `${baseUrl}?by_city=${city}&per_page=${perPage}`;
+
+  const getBreweries = async () => {
+    let data = [];
+    setError(false);
+    const response = await fetch(url);
+    if (response.ok) {
+      data = response.json();
+    } else {
+      setError(true);
+      setLoading(false);
+    }
+    return data;
+  };
+
+  const beforeShow = async () => {
+    if (!list.length) {
+      setLoading(true);
+      return await getBreweries().then((data) => {
+        if (data.length) {
+          setList(data);
+          setLoading(false);
+          return true;
+        }
+        return false;
+      });
+    }
+    return true;
+  };
 
   const onSelect = ({ item }) => {
     setValue(item);
@@ -16,42 +48,14 @@ function App() {
     setValue({});
   };
 
-  const url = "https://api.openbrewerydb.org/breweries?per_page=50";
-
-  const getBreweries = async () => {
-    let response = await fetch(url);
-    let data = await response.json();
-    console.log(data);
-    return data;
-  };
-
-  const beforeShow = async () => {
-    setLoading(true);
-    return await getBreweries().then((data) => {
-      setLoading(false);
-      setList(data);
-      return true;
-    });
-  };
-
-  const afterHide = () => {
-    setError(false);
-  };
-
   const breweries = list.map((item) => (
-    <Select.Option
-      className={styles.capitalize}
-      key={item.id}
-      value={item}
-      selected={item.id === value.id}
-    >
+    <Select.Option key={item.id} value={item} selected={item.id === value.id}>
       {item.name}
     </Select.Option>
   ));
 
   return (
     <Select
-      afterHide={afterHide}
       beforeShow={beforeShow}
       error={error}
       label={value.name}

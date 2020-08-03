@@ -15,7 +15,7 @@ function App() {
   const getBreweries = async () => {
     let data = [];
     setError(false);
-    const response = await fetch(url);
+    const response = await fetch(url, { method: "GET", cache: "reload" });
     if (response.ok) {
       data = response.json();
     } else {

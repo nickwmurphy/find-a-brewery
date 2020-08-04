@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@procore/core-react": "^8.20.0",
+    "@react-google-maps/api": "^1.9.9",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -1,1 +1,3 @@
-A simple React app that uses the Procore Core Select component to fetch and display a list of local breweries from https://www.openbrewerydb.org/.
+A simple React app that uses `@procore/core-react` and `react-google-maps/api`.
+
+This app allows users to select a city, fetch a list of that city's breweries using https://www.openbrewerydb.org/, and display a selected brewery's location on a map.

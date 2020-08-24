@@ -5,11 +5,10 @@ import { Context } from "./Context";
 
 function BrewerySelect() {
   const [list, setList] = useState([]);
-  const [value, setValue] = useState({ id: null, name: null });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const { city, setBrewery } = useContext(Context);
+  const { city, brewery, setBrewery } = useContext(Context);
 
   const beforeShow = async () => {
     setError(false);
@@ -28,12 +27,11 @@ function BrewerySelect() {
   };
 
   const onSelect = ({ item }) => {
-    setValue(item);
     setBrewery(item);
   };
 
   const onClear = () => {
-    setValue({});
+    setBrewery({});
   };
 
   const breweries = list.map((item) => {
@@ -42,7 +40,7 @@ function BrewerySelect() {
         <Select.Option
           key={item.id}
           value={item}
-          selected={item.id === value.id}
+          selected={item.id === brewery.id}
         >
           {item.name}
         </Select.Option>
@@ -58,7 +56,7 @@ function BrewerySelect() {
       <Select
         beforeShow={beforeShow}
         error={error}
-        label={value.name}
+        label={brewery.name}
         loading={loading}
         onClear={onClear}
         onSelect={onSelect}

@@ -7,7 +7,7 @@ const parseResponse = (response) => {
 
 export default async function fetchBreweries(city) {
   const baseUrl = "https://api.openbrewerydb.org/breweries";
-  const perPage = 50;
+  const perPage = 25;
   const url = `${baseUrl}?by_city=${city}&per_page=${perPage}`;
   const response = await fetch(url, { method: "GET", cache: "reload" });
   return parseResponse(response);
